@@ -1,10 +1,6 @@
 import fire
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
-import fsspec
 from main.paper_experiments.experiments import run_model_imagefolder
 from argparse import Namespace
-
 
 clip_model_name = 'ViT-L/14'
 prompt_path = f'data/{clip_model_name.replace("/", "-")}/prompts.p'

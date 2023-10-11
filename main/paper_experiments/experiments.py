@@ -39,7 +39,7 @@ default_cmap = LinearSegmentedColormap.from_list('custom blue',
 
 
 def eval_model_(args, x, model, file_name, save_path=None, verbose=True, show=False, data_type='moral'):
-    x = x.to(f'cuda:{args.gpu[0]}')
+    x = x.to('cuda')
 
     logits = model(x)
     probs = logits.softmax(dim=-1)
@@ -90,8 +90,7 @@ def load_model(args, save_path):
 def run_model_imagefolder(args, data_set_path, save_dir, types=None):
     torch.set_num_threads(6)
 
-    save_path = os.path.join('./data',
-                             save_dir, 'inappropriate',
+    save_path = os.path.join(save_dir, 'inappropriate',
                              f'{args.language_model.split("/")[0]}/')
     model, save_path = load_model(args, save_path)
 

@@ -21,8 +21,8 @@ class ClipVisionModel(torch.nn.Module):
 class ClipSimModel_Infer(torch.nn.Module):
     def __init__(self, args, prompts=None):
         super(ClipSimModel_Infer, self).__init__()
-        self.MMM, self.preprocess = clip.load(args.language_model.split('_')[1], f'cuda:{args.gpu[0]}', jit=False)
-        self.MMM.to(f'cuda:{args.gpu[0]}')
+        self.MMM, self.preprocess = clip.load(args.language_model.split('_')[1], 'cuda', jit=False)
+        self.MMM.to('cuda')
         self.MMM.eval()
 
         labels_clip_prompt = ['positive', 'negative']
@@ -30,9 +30,9 @@ class ClipSimModel_Infer(torch.nn.Module):
         # labels = ['blameworthy', 'praiseworthy']
         text = clip.tokenize([f"This image is about something {labels_clip_prompt[0]}",
                               f"This image is about something {labels_clip_prompt[1]}"
-                              ]).to(f'cuda:{args.gpu[0]}')
+                              ]).to('cuda')
         if prompts is not None:
-            self.text_features = torch.HalfTensor(prompts).to(f'cuda:{args.gpu[0]}')
+            self.text_features = torch.HalfTensor(prompts).to('cuda')
             print('Using tuned prompts', self.text_features.shape)
         else:
             self.text_features = self.MMM.encode_text(text)
